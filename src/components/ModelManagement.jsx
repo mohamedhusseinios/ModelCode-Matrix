@@ -97,11 +97,12 @@ const ModelManagement = ({ models, onAddModel, onUpdateModel, onDeleteModel, onR
 
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
+                        <caption className="sr-only">Model management - list of configured AI models with edit and delete actions</caption>
                         <thead>
                             <tr className="border-b border-slate-200">
-                                <th className="py-3 px-4 font-semibold text-slate-800">Model</th>
-                                <th className="py-3 px-4 font-semibold text-slate-800">Title</th>
-                                <th className="py-3 px-4 font-semibold text-slate-800">Actions</th>
+                                <th scope="col" className="py-3 px-4 font-semibold text-slate-800">Model</th>
+                                <th scope="col" className="py-3 px-4 font-semibold text-slate-800">Title</th>
+                                <th scope="col" className="py-3 px-4 font-semibold text-slate-800">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
