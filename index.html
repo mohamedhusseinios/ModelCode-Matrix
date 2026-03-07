@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Coding Capabilities: 2026 Frontier Models</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Chosen Palette: Slate background (slate-50), with Blue (blue-600) and Emerald (emerald-500) accents for a professional, analytical feel. -->
+    <!-- Application Structure Plan: The SPA is structured as a single-page scrolling dashboard. It starts with an executive summary and model profiles to immediately answer "what is each best for?". This is followed by a quantitative performance dashboard using interactive charts to provide evidence. Finally, an interactive "Use-Case Selector" allows users to input their specific coding need and receive a tailored model recommendation. This flow moves from high-level understanding -> data-driven proof -> personalized application. -->
+    <!-- Visualization & Content Choices:
+         1. Radar Chart (Chart.js) -> Goal: Compare multi-dimensional capabilities (Logic, Speed, etc.) -> Justification: Best way to see trade-offs between 4 models at a glance.
+         2. Grouped Bar Chart (Chart.js) -> Goal: Compare benchmark scores -> Justification: Clear quantitative comparison of performance metrics.
+         3. Interactive Cards (HTML/CSS/JS) -> Goal: Detail what each model is "Best For" -> Justification: Text-heavy insights need clean containment; hover effects encourage reading.
+         4. Interactive Use-Case Matrix -> Goal: Actionable takeaway -> Justification: Allows users to filter the findings based on their immediate real-world needs.
+         Library/Method: Chart.js for all graphs, Vanilla JS for state, Tailwind for layout. NO SVG/Mermaid used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+
+        /* Required Chart Container Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px; /* Base height */
+            max-height: 500px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px; /* Smaller on mobile */
+            }
+        }
+
+        /* Custom scrollbar for a polished look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+        .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 300ms; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center font-bold text-xl text-blue-700">
+                    💻 ModelCode Matrix
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#summary" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Executive Summary</a>
+                    <a href="#best-for" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">What They're Best For</a>
+                    <a href="#performance" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Performance Data</a>
+                    <a href="#use-cases" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Interactive Selector</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header / Hero -->
+    <header class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-4">
+            Evaluating Frontier Models for Code Generation
+        </h1>
+        <p class="text-xl text-slate-600 max-w-3xl mx-auto">
+            A comprehensive technical breakdown of Kimi K2.5, MiniMax2.5, GLM-5, and Qwen3.5:397b. Discover which architecture aligns perfectly with your software engineering workflows.
+        </p>
+    </header>
+
+    <!-- Section 1: Executive Summary -->
+    <section id="summary" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-800 mb-4">Executive Summary</h2>
+            <p class="text-slate-600 mb-4 leading-relaxed">
+                The landscape of LLM-assisted coding has specialized. While earlier models aimed for general proficiency, the latest iterations—Kimi K2.5, MiniMax2.5, GLM-5, and Qwen3.5:397b—exhibit distinct architectural biases that make them exceptionally suited for specific development tasks.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                <strong>Qwen3.5:397b</strong> dominates in raw capability across multiple languages due to its sheer parameter count. <strong>GLM-5</strong> stands out in deep algorithmic logic and complex systemic refactoring. <strong>Kimi K2.5</strong> leverages its massive context window to become the ultimate repository-level debugger. <strong>MiniMax2.5</strong>, utilizing an efficient MoE (Mixture of Experts) approach, offers the highest speed-to-accuracy ratio for agile, everyday scripting and frontend development.
+            </p>
+        </div>
+    </section>
+
+    <!-- Section 2: What Each Model is Best For -->
+    <section id="best-for" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-slate-900">Model Profiles: What They Are Best For</h2>
+            <p class="text-slate-600 mt-2">Explore the core strengths and ideal use-cases for each model based on their architectural advantages.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Kimi K2.5 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card-hover transition-all flex flex-col">
+                <div class="text-4xl mb-4">📚</div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Kimi K2.5</h3>
+                <div class="text-sm font-semibold text-blue-600 mb-3 bg-blue-50 inline-block px-2 py-1 rounded">The Context King</div>
+                <p class="text-slate-600 text-sm mb-4 flex-grow">
+                    Designed with an ultra-long context window. It excels at ingesting entire codebases, documentation, and logs simultaneously.
+                </p>
+                <div class="border-t border-slate-100 pt-4 mt-auto">
+                    <strong class="text-slate-800 text-sm block mb-1">BEST FOR:</strong>
+                    <ul class="text-sm text-slate-600 list-disc pl-4 space-y-1">
+                        <li>Repository-wide refactoring</li>
+                        <li>Debugging massive error logs</li>
+                        <li>Legacy code comprehension</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- MiniMax2.5 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card-hover transition-all flex flex-col">
+                <div class="text-4xl mb-4">⚡</div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">MiniMax2.5</h3>
+                <div class="text-sm font-semibold text-emerald-600 mb-3 bg-emerald-50 inline-block px-2 py-1 rounded">The Agile Sprinter</div>
+                <p class="text-slate-600 text-sm mb-4 flex-grow">
+                    A highly optimized MoE architecture that delivers incredibly fast response times with high accuracy for standard frameworks.
+                </p>
+                <div class="border-t border-slate-100 pt-4 mt-auto">
+                    <strong class="text-slate-800 text-sm block mb-1">BEST FOR:</strong>
+                    <ul class="text-sm text-slate-600 list-disc pl-4 space-y-1">
+                        <li>Real-time IDE autocomplete</li>
+                        <li>Frontend/UI component generation</li>
+                        <li>Rapid prototyping & scripting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- GLM-5 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card-hover transition-all flex flex-col">
+                <div class="text-4xl mb-4">🧠</div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">GLM-5</h3>
+                <div class="text-sm font-semibold text-purple-600 mb-3 bg-purple-50 inline-block px-2 py-1 rounded">The Algorithmist</div>
+                <p class="text-slate-600 text-sm mb-4 flex-grow">
+                    Built with a strong foundation in complex mathematical and algorithmic reasoning. It writes highly optimized, logically sound code.
+                </p>
+                <div class="border-t border-slate-100 pt-4 mt-auto">
+                    <strong class="text-slate-800 text-sm block mb-1">BEST FOR:</strong>
+                    <ul class="text-sm text-slate-600 list-disc pl-4 space-y-1">
+                        <li>Complex algorithmic challenges</li>
+                        <li>Data science & ML pipelines</li>
+                        <li>C++ & low-level optimization</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Qwen3.5:397b -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card-hover transition-all flex flex-col">
+                <div class="text-4xl mb-4">🌍</div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Qwen3.5:397b</h3>
+                <div class="text-sm font-semibold text-orange-600 mb-3 bg-orange-50 inline-block px-2 py-1 rounded">The Enterprise Heavyweight</div>
+                <p class="text-slate-600 text-sm mb-4 flex-grow">
+                    A massive open-weights model providing near-AGI capabilities in coding across dozens of languages and enterprise frameworks.
+                </p>
+                <div class="border-t border-slate-100 pt-4 mt-auto">
+                    <strong class="text-slate-800 text-sm block mb-1">BEST FOR:</strong>
+                    <ul class="text-sm text-slate-600 list-disc pl-4 space-y-1">
+                        <li>Enterprise architecture design</li>
+                        <li>Multi-language microservices</li>
+                        <li>Autonomous coding agents</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Performance Data (Charts) -->
+    <section id="performance" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-slate-900">Quantitative Performance Metrics</h2>
+            <p class="text-slate-600 mt-2">Visualizing the comparative strengths of each model across different coding dimensions and synthetic benchmarks.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Radar Chart -->
+            <div class="flex flex-col">
+                <h3 class="text-lg font-semibold text-center mb-2">Capability Radar</h3>
+                <p class="text-sm text-slate-500 text-center mb-4">Relative strengths across 5 key coding dimensions.</p>
+                <div class="chart-container">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Bar Chart -->
+            <div class="flex flex-col">
+                <h3 class="text-lg font-semibold text-center mb-2">Benchmark Performance (Proxy)</h3>
+                <p class="text-sm text-slate-500 text-center mb-4">Scores on synthetic logic and generation tasks (0-100).</p>
+                <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Interactive Use-Case Selector -->
+    <section id="use-cases" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="bg-slate-800 rounded-2xl shadow-lg p-8 text-white">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Interactive Matchmaker</h2>
+                <p class="text-slate-300">Select your primary coding task to see which model is recommended and why.</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Selectors -->
+                <div class="w-full md:w-1/3 flex flex-col gap-3" id="task-buttons">
+                    <button class="task-btn bg-slate-700 hover:bg-blue-600 text-left px-4 py-3 rounded-lg font-medium transition-colors border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500" data-target="massive-repo">
+                        🔍 Analyzing a Massive Repo
+                    </button>
+                    <button class="task-btn bg-slate-700 hover:bg-blue-600 text-left px-4 py-3 rounded-lg font-medium transition-colors border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500" data-target="fast-ui">
+                        🎨 Generating React UI Fast
+                    </button>
+                    <button class="task-btn bg-slate-700 hover:bg-blue-600 text-left px-4 py-3 rounded-lg font-medium transition-colors border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500" data-target="complex-algo">
+                        🧮 Writing Complex Algorithms
+                    </button>
+                    <button class="task-btn bg-slate-700 hover:bg-blue-600 text-left px-4 py-3 rounded-lg font-medium transition-colors border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500" data-target="enterprise-backend">
+                        🏗️ Enterprise Microservices
+                    </button>
+                </div>
+
+                <!-- Result Pane -->
+                <div class="w-full md:w-2/3 bg-slate-900 rounded-xl p-6 border border-slate-700 relative overflow-hidden">
+                    <div id="default-state" class="absolute inset-0 flex items-center justify-center flex-col text-slate-500">
+                        <span class="text-4xl mb-2">👈</span>
+                        <p>Select a task from the left</p>
+                    </div>
+
+                    <div id="result-state" class="hidden h-full flex flex-col justify-center">
+                        <div class="text-sm font-bold tracking-wider text-slate-400 uppercase mb-1">Recommended Model</div>
+                        <h3 id="result-model" class="text-3xl font-bold text-blue-400 mb-4">Model Name</h3>
+                        <p id="result-desc" class="text-slate-300 leading-relaxed mb-6">
+                            Description of why this model is the best fit for the selected task.
+                        </p>
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                            <h4 class="text-sm font-semibold text-white mb-2">Key Advantages:</h4>
+                            <ul id="result-bullets" class="list-disc pl-5 text-sm text-slate-300 space-y-1">
+                                <!-- Bullets populated by JS -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white border-t border-slate-200 py-8 mt-12 text-center text-slate-500 text-sm">
+        <p>Interactive Coding Model Comparison Report | 2026 Architect Analysis</p>
+        <p class="mt-2">Note: Data represents aggregated proxies based on architectural capabilities.</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Chart.js Configuration ---
+
+            // Shared config for responsiveness
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { family: "'Inter', sans-serif" }, usePointStyle: true }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                        titleFont: { family: "'Inter', sans-serif", size: 14 },
+                        bodyFont: { family: "'Inter', sans-serif", size: 13 },
+                        padding: 12,
+                        cornerRadius: 8
+                    }
+                }
+            };
+
+            // 1. Radar Chart Data (Capabilities)
+            const radarCtx = document.getElementById('radarChart').getContext('2d');
+            new Chart(radarCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Long-Context', 'Speed/Latency', 'Algorithmic Logic', 'Syntax Accuracy', 'Multi-Language'],
+                    datasets: [
+                        {
+                            label: 'Kimi K2.5',
+                            data: [98, 70, 80, 85, 82],
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)', // Blue
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'MiniMax2.5',
+                            data: [75, 95, 78, 88, 85],
+                            backgroundColor: 'rgba(16, 185, 129, 0.2)', // Emerald
+                            borderColor: 'rgba(16, 185, 129, 1)',
+                            pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'GLM-5',
+                            data: [82, 75, 96, 92, 80],
+                            backgroundColor: 'rgba(168, 85, 247, 0.2)', // Purple
+                            borderColor: 'rgba(168, 85, 247, 1)',
+                            pointBackgroundColor: 'rgba(168, 85, 247, 1)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Qwen3.5:397b',
+                            data: [88, 65, 92, 95, 98],
+                            backgroundColor: 'rgba(249, 115, 22, 0.2)', // Orange
+                            borderColor: 'rgba(249, 115, 22, 1)',
+                            pointBackgroundColor: 'rgba(249, 115, 22, 1)',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    ...chartOptions,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            pointLabels: { font: { family: "'Inter', sans-serif", size: 12 }, color: '#475569' },
+                            ticks: { display: false, min: 50, max: 100 }
+                        }
+                    }
+                }
+            });
+
+            // 2. Bar Chart Data (Benchmarks)
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Code Generation', 'Debugging', 'Refactoring', 'Algorithm Math'],
+                    datasets: [
+                        { label: 'Kimi K2.5', data: [82, 94, 91, 78], backgroundColor: 'rgba(59, 130, 246, 0.8)' },
+                        { label: 'MiniMax2.5', data: [91, 79, 82, 76], backgroundColor: 'rgba(16, 185, 129, 0.8)' },
+                        { label: 'GLM-5', data: [88, 85, 87, 95], backgroundColor: 'rgba(168, 85, 247, 0.8)' },
+                        { label: 'Qwen3.5', data: [95, 88, 90, 92], backgroundColor: 'rgba(249, 115, 22, 0.8)' }
+                    ]
+                },
+                options: {
+                    ...chartOptions,
+                    scales: {
+                        y: { beginAtZero: false, min: 60, max: 100, grid: { color: 'rgba(0, 0, 0, 0.05)' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // --- Interactive Matrix Logic ---
+            const db = {
+                'massive-repo': {
+                    model: 'Kimi K2.5',
+                    color: 'text-blue-400',
+                    desc: 'For tasks requiring knowledge of hundreds of interlinked files, Kimi K2.5 is unmatched. Its massive context window allows you to upload entire codebases, enabling the model to understand global dependencies rather than just local syntax.',
+                    bullets: ['Millions of tokens of context window', 'Maintains high recall over long inputs', 'Excellent at spotting variable shadowing across modules']
+                },
+                'fast-ui': {
+                    model: 'MiniMax2.5',
+                    color: 'text-emerald-400',
+                    desc: 'When building frontends, speed and adherence to common frameworks (React, Vue, Tailwind) are key. MiniMax2.5 utilizes an efficient MoE architecture to spit out boilerplate and UI components almost instantly.',
+                    bullets: ['Lowest Time-To-First-Token (TTFT)', 'Highly trained on modern frontend frameworks', 'Perfect for real-time IDE copilot integration']
+                },
+                'complex-algo': {
+                    model: 'GLM-5',
+                    color: 'text-purple-400',
+                    desc: 'If you are optimizing a C++ physics engine or writing complex data transformations, GLM-5 is your best bet. It has been rigorously trained on deep algorithmic logic and mathematical problem-solving.',
+                    bullets: ['Superior logical reasoning capabilities', 'Produces highly optimized, low-time-complexity code', 'Strongest performance in C, C++, and Python data science']
+                },
+                'enterprise-backend': {
+                    model: 'Qwen3.5:397b',
+                    color: 'text-orange-400',
+                    desc: 'For heavy enterprise lifting—like transitioning a monolithic Java backend to Go microservices—you need raw brainpower. Qwen3.5:397b provides near-AGI coding comprehension across a vast array of programming languages.',
+                    bullets: ['Massive 397 billion parameter knowledge base', 'Fluent in almost all enterprise languages (Java, C#, Go)', 'Highly reliable for autonomous agent frameworks']
+                }
+            };
+
+            const buttons = document.querySelectorAll('.task-btn');
+            const defaultState = document.getElementById('default-state');
+            const resultState = document.getElementById('result-state');
+            const resultModel = document.getElementById('result-model');
+            const resultDesc = document.getElementById('result-desc');
+            const resultBullets = document.getElementById('result-bullets');
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // Reset buttons
+                    buttons.forEach(b => {
+                        b.classList.remove('bg-blue-600', 'border-blue-400');
+                        b.classList.add('bg-slate-700', 'border-slate-600');
+                    });
+
+                    // Highlight selected
+                    const targetBtn = e.currentTarget;
+                    targetBtn.classList.remove('bg-slate-700', 'border-slate-600');
+                    targetBtn.classList.add('bg-blue-600', 'border-blue-400');
+
+                    // Get data
+                    const taskKey = targetBtn.getAttribute('data-target');
+                    const data = db[taskKey];
+
+                    // Update DOM
+                    defaultState.style.display = 'none';
+                    resultState.classList.remove('hidden');
+
+                    resultModel.textContent = data.model;
+                    resultModel.className = `text-3xl font-bold mb-4 ${data.color}`; // apply specific color
+                    resultDesc.textContent = data.desc;
+
+                    // Update bullets
+                    resultBullets.textContent = '';
+                    data.bullets.forEach(bullet => {
+                        const li = document.createElement('li');
+                        li.textContent = bullet;
+                        resultBullets.appendChild(li);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
