@@ -2,6 +2,53 @@
 
 🚀 **Live Demo:** [https://mohamedhusseinios.github.io/ModelCode-Matrix/](https://mohamedhusseinios.github.io/ModelCode-Matrix/)
 
+## How to Run
+
+### Prerequisites
+
+- **Node.js** (v18 or higher recommended)
+- **npm** or **yarn** (npm comes with Node.js)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd ModelCode-Matrix
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+### Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start the development server with hot reloading |
+| `npm run build` | Build the project for production |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint to check for code issues |
+
+### Running the Development Server
+
+```bash
+npm run dev
+```
+
+The app will be available at `http://localhost:5173` (default Vite port).
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+The optimized production files will be generated in the `dist` folder.
+
+---
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
